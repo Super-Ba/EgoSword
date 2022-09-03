@@ -1,9 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Enemy : Actor
 {
+    [SerializeField] private Image _hpGuage;
+
     [SerializeField] private float _moveSpeed;
     [SerializeField] private float _gravity;
 
@@ -30,6 +33,8 @@ public class Enemy : Actor
     {
         this.target = target;
         Hp = MaxHp = hp;
+
+        _hpGuage.fillAmount = (float) Hp / MaxHp;
     }
 
     private void Update()
@@ -79,6 +84,8 @@ public class Enemy : Actor
         _lastKnockBackTime = Time.time;
 
         Hp -= power;
+
+        _hpGuage.fillAmount = (float) Hp / MaxHp;
 
         if (Hp < 0)
         {
