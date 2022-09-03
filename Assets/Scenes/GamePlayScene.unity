@@ -1338,12 +1338,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 804181aadda760f4abc56c5ac329f607, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxHp: 100
-  Hp: 100
+  MaxHp: 10000
+  Hp: 10000
   _moveSpeed: 3.75
   _gravity: 10
-  _knockBackJumpPower: 5
-  _knockBackPushPower: 5
+  _knockBackJumpPower: 20
+  _knockBackPushPower: 10
+  _knockBackCoolTime: 0.3
 --- !u!23 &1663619569
 MeshRenderer:
   m_ObjectHideFlags: 0

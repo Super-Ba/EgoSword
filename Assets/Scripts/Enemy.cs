@@ -9,6 +9,7 @@ public class Enemy : Actor
 
     [SerializeField] private float _knockBackJumpPower;
     [SerializeField] private float _knockBackPushPower;
+    [SerializeField] private float _knockBackCoolTime;
 
     protected Player target;
 
@@ -16,12 +17,14 @@ public class Enemy : Actor
 
     private Vector3 _moveDir = Vector3.zero;
 
+    private bool _isKnockBack = false;
+    private Vector3 _knockBackForce;
+    private float _lastKnockBackTime;
 
     private void Awake()
     {
         _controller = GetComponent<CharacterController>();
     }
-
 
     public void init(Player target, int hp)
     {
@@ -31,20 +34,31 @@ public class Enemy : Actor
 
     private void Update()
     {
-        if(_controller.isGrounded)
+        if (!_isKnockBack)
         {
-            var dir = (target.transform.position - transform.position);
-            dir.y = 0;
+            if (_controller.isGrounded)
+            {
+                var dir = (target.transform.position - transform.position);
+                dir.y = 0;
 
-            _moveDir = dir.normalized * _moveSpeed;
+                _moveDir = dir.normalized * _moveSpeed;
+            }
+
+            _moveDir.y -= _gravity;
+
+            _controller.Move(_moveDir * Time.deltaTime);
         }
+        else
+        {
+            _controller.Move((_knockBackForce + Vector3.down * _gravity) * Time.deltaTime);
+            _knockBackForce = Vector3.Lerp(_knockBackForce, Vector3.zero, 5 * Time.deltaTime);
 
-        _moveDir.y -= _gravity;
-
-
-        _controller.Move(_moveDir * Time.deltaTime);
+            if (_lastKnockBackTime + _knockBackCoolTime < Time.time)
+            {
+                _isKnockBack = false;
+            }
+        }
     }
-
 
     protected override void Attack()
     {
@@ -54,21 +68,21 @@ public class Enemy : Actor
     public override void Damage(Vector3 hitSource, int power)
     {
         Debug.Log($"{Hp} {power}");
-        var dir = (transform.position - target.transform.position);
-        dir.y = 0;
-        dir.Normalize();
+        _knockBackForce = (transform.position - target.transform.position);
+        _knockBackForce.y = 0;
+        _knockBackForce.Normalize();
 
-        dir *= _knockBackPushPower;
-        dir.y = _knockBackJumpPower;
+        _knockBackForce *= _knockBackPushPower;
+        _knockBackForce.y = _knockBackJumpPower;
 
-        _controller.Move(dir);
+        _isKnockBack = true;
+        _lastKnockBackTime = Time.time;
 
         Hp -= power;
 
-        if(Hp < 0)
+        if (Hp < 0)
         {
             Destroy(this.gameObject);
         }
     }
-
 }
