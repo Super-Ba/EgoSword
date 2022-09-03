@@ -10,24 +10,22 @@ public class Player : Actor
 
     [SerializeField] private GameObject _playerModel;
     [SerializeField] private GameObject _arrowObject;
-    
+
     [SerializeField] private LayerMask _ground;
     [SerializeField] private LayerMask _enemy;
 
     [SerializeField] private float _speed;
     [SerializeField] private float _gravity;
 
-    [Header("대쉬")]
-    [SerializeField] private float _dashSpeed;
+    [Header("대쉬")] [SerializeField] private float _dashSpeed;
     [SerializeField] private float _dashTime;
     [SerializeField] private float _dashCooltime;
 
-    [Header("공격")]
-    [SerializeField] private int _totalAtkCount;//연타 애니메이션 개수
+    [Header("공격")] [SerializeField] private int _totalAtkCount; //연타 애니메이션 개수
     [SerializeField] private float _atkComboMaxTime;
     [SerializeField] private float _atkAngle;
-    
-    
+
+
     private Sword _sword;
 
     private CharacterController _controller;
@@ -47,6 +45,7 @@ public class Player : Actor
     private float _atkCoolTime;
     private int _atkPower;
     private float _atkRange;
+    private float _atkShake;
 
     void Start()
     {
@@ -59,6 +58,7 @@ public class Player : Actor
         _atkCoolTime = _sword.AtkCoolTime;
         _atkPower = _sword.AtkPower;
         _atkRange = _sword.AtkRange;
+        _atkShake = _sword.Shake;
     }
 
     void Update()
@@ -66,7 +66,7 @@ public class Player : Actor
         Move();
         Aim();
         Attack();
-        
+
         UpgradeSword();
 
         UpdateUI();
@@ -75,7 +75,6 @@ public class Player : Actor
 
     private void Move()
     {
-
         if (_isDash && _lastDashTime + _dashTime < Time.time)
         {
             _isDash = false;
@@ -109,6 +108,8 @@ public class Player : Actor
                 _animator.SetTrigger(AnimKey_Roll);
 
                 transform.rotation = Quaternion.LookRotation(_moveDir, Vector3.up);
+
+                CameraMovement.StartShake(_dashTime, 0.05f);
             }
             else
             {
@@ -138,6 +139,11 @@ public class Player : Actor
         }
     }
 
+    public override void Damage(Vector3 hitSource, int power)
+    {
+        CameraMovement.StartShake(1, 0.1f);
+    }
+
     protected override void Attack()
     {
         if (_isDash)
@@ -162,6 +168,7 @@ public class Player : Actor
 
             var result = Physics.OverlapSphere(transform.position, _atkRange, _enemy);
 
+            bool isHit = false;
             foreach (var hit in result)
             {
                 var dir = hit.transform.position - transform.position;
@@ -171,13 +178,17 @@ public class Player : Actor
                 if (angle < _atkAngle && hit.TryGetComponent<Actor>(out var actor))
                 {
                     actor.Damage(transform.position, _atkPower);
+                    isHit = true;
                 }
             }
 
+            if (isHit)
+            {
+                CameraMovement.StartShake(0.1f, _atkShake);
+            }
 
             _lastAtkTime = Time.time;
         }
-
     }
 
     private void UpdateUI()
@@ -186,7 +197,7 @@ public class Player : Actor
         UIManager.Instance.SetHpGuage(Hp, MaxHp);
         UIManager.Instance.SetLevelGuage(_sword.Level);
         UIManager.Instance.SetCostGuage(_sword.NextCost);
-        
+
         _arrowObject.SetActive(!_isDash);
     }
 
@@ -201,6 +212,7 @@ public class Player : Actor
                 _atkCoolTime = _sword.AtkCoolTime;
                 _atkPower = _sword.AtkPower;
                 _atkRange = _sword.AtkRange;
+                _atkShake = _sword.Shake;
             }
         }
     }
@@ -214,10 +226,9 @@ public class Player : Actor
         var angleMin = (_atkAngle + transform.rotation.eulerAngles.y) * Mathf.Deg2Rad;
         var angleMax = (-_atkAngle + transform.rotation.eulerAngles.y) * Mathf.Deg2Rad;
 
-        
+
         Gizmos.color = Color.red;
         Gizmos.DrawRay(transform.position, new Vector3(Mathf.Sin(angleMin), 0, Mathf.Cos(angleMin)) * _atkRange);
         Gizmos.DrawRay(transform.position, new Vector3(Mathf.Sin(angleMax), 0, Mathf.Cos(angleMax)) * _atkRange);
     }
-
 }

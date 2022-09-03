@@ -13,6 +13,8 @@ public class SwordGrowthGameData : ScriptableObject
         public int AtkPower;
         public float AtkCoolTime;
         public float AtkRange;
+
+        public float Shake;
     }
 
 

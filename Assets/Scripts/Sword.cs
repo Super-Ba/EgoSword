@@ -12,6 +12,7 @@ public class Sword
     public int AtkPower { get { return DataManager.Instance.SwordGrowthGameData.GetData(Level)?.AtkPower ?? 0; } }
     public float AtkCoolTime { get { return DataManager.Instance.SwordGrowthGameData.GetData(Level)?.AtkCoolTime ?? 0; } }
     public float AtkRange { get { return DataManager.Instance.SwordGrowthGameData.GetData(Level)?.AtkRange ?? 0; } }
+    public float Shake { get { return DataManager.Instance.SwordGrowthGameData.GetData(Level)?.Shake ?? 0; } }
 
     public bool LevelUp()
     {
