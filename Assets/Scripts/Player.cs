@@ -2,8 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
-
 public class Player : Actor
 {
     private readonly int AnimKey_Roll = Animator.StringToHash("Roll");
@@ -11,29 +9,25 @@ public class Player : Actor
     private readonly int AnimKey_AtkPhase = Animator.StringToHash("AtkPhase");
 
     [SerializeField] private GameObject _playerModel;
-
+    [SerializeField] private GameObject _arrowObject;
+    
     [SerializeField] private LayerMask _ground;
     [SerializeField] private LayerMask _enemy;
 
     [SerializeField] private float _speed;
     [SerializeField] private float _gravity;
 
-    [Header("¥ÎΩ¨")]
+    [Header("ÎåÄÏâ¨")]
     [SerializeField] private float _dashSpeed;
     [SerializeField] private float _dashTime;
     [SerializeField] private float _dashCooltime;
 
-
-    [Header("∞¯∞›")]
-    [SerializeField] private int _totalAtkCount;//ø¨≈∏ºˆ
+    [Header("Í≥µÍ≤©")]
+    [SerializeField] private int _totalAtkCount;//Ïó∞ÌÉÄ Ïï†ÎãàÎ©îÏù¥ÏÖò Í∞úÏàò
     [SerializeField] private float _atkComboMaxTime;
-
-
-
-    
     [SerializeField] private float _atkAngle;
-
-
+    
+    
     private Sword _sword;
 
     private CharacterController _controller;
@@ -192,6 +186,8 @@ public class Player : Actor
         UIManager.Instance.SetHpGuage(Hp, MaxHp);
         UIManager.Instance.SetLevelGuage(_sword.Level);
         UIManager.Instance.SetCostGuage(_sword.NextCost);
+        
+        _arrowObject.SetActive(!_isDash);
     }
 
     private void UpgradeSword()
@@ -212,14 +208,13 @@ public class Player : Actor
 
     private void OnDrawGizmos()
     {
-        //¥ÎΩ¨
         Gizmos.color = Color.blue;
         Gizmos.DrawRay(transform.position, transform.forward * (_dashTime * _dashSpeed));
 
-        //∞¯∞›π¸¿ß
         var angleMin = (_atkAngle + transform.rotation.eulerAngles.y) * Mathf.Deg2Rad;
         var angleMax = (-_atkAngle + transform.rotation.eulerAngles.y) * Mathf.Deg2Rad;
 
+        
         Gizmos.color = Color.red;
         Gizmos.DrawRay(transform.position, new Vector3(Mathf.Sin(angleMin), 0, Mathf.Cos(angleMin)) * _atkRange);
         Gizmos.DrawRay(transform.position, new Vector3(Mathf.Sin(angleMax), 0, Mathf.Cos(angleMax)) * _atkRange);

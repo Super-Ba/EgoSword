@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657815, g: 0.49641192, b: 0.57481617, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -546,7 +546,7 @@ GameObject:
   - component: {fileID: 863894143}
   - component: {fileID: 863894142}
   m_Layer: 0
-  m_Name: Quad
+  m_Name: Arrow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1225,6 +1225,7 @@ MonoBehaviour:
   MaxHp: 100
   Hp: 100
   _playerModel: {fileID: 339697620}
+  _arrowObject: {fileID: 863894140}
   _ground:
     serializedVersion: 2
     m_Bits: 128
@@ -1339,7 +1340,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MaxHp: 100
   Hp: 100
-  _moveSpeed: 5
+  _moveSpeed: 3.75
   _gravity: 10
   _knockBackJumpPower: 5
   _knockBackPushPower: 5

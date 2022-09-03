@@ -39,13 +39,13 @@ public class UIManager : MonoBehaviour
 
     public void SetHpGuage(int current, int max)
     {
-        _hpText.text = $"Ã¼·Â {current}/{max}";
+        _hpText.text = $"ì²´ë ¥ {current}/{max}";
     }
 
 
     public void SetLevelGuage(int level)
     {
-        _levelText.text = $"°ËÀÇ ·¹º§ {level}";
+        _levelText.text = $"ê²€ì˜ ë ˆë²¨ : {level}";
     }
 
 
@@ -53,11 +53,11 @@ public class UIManager : MonoBehaviour
     {
         if (cost == -1)
         {
-            _costText.text = $"°ËÀÌ ¸¸Á·ÇÏ¿´´Ù.";
+            _costText.text = $"ê²€ì´ ë§Œì¡±í•˜ì˜€ë‹¤.";
         }
         else
         {
-            _costText.text = $"°ËÀÌ ¿øÇÏ´Â ÇÇÀÇ ¾ç {cost}";
+            _costText.text = $"ê²€ì´ ì›í•˜ëŠ” í”¼ì˜ ì–‘ : {cost}";
         }
     }
 }
