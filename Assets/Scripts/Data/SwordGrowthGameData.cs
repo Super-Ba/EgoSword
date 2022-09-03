@@ -15,6 +15,7 @@ public class SwordGrowthGameData : ScriptableObject
         public float AtkRange;
 
         public float Shake;
+        public float UpgradeCooltime;
     }
 
 

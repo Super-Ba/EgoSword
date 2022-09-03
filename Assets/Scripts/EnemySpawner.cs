@@ -25,7 +25,6 @@ public class EnemySpawner : MonoBehaviour
             var obj = GameObject.Instantiate(SpawnOrigin).GetComponent<Enemy>();
 
             obj.transform.position = SpawnPoints[Random.Range(0, SpawnPoints.Length)].position;
-            obj.init(Target, 100);
 
             obj.gameObject.SetActive(true);
         }

@@ -13,13 +13,16 @@ public class Sword
     public float AtkCoolTime { get { return DataManager.Instance.SwordGrowthGameData.GetData(Level)?.AtkCoolTime ?? 0; } }
     public float AtkRange { get { return DataManager.Instance.SwordGrowthGameData.GetData(Level)?.AtkRange ?? 0; } }
     public float Shake { get { return DataManager.Instance.SwordGrowthGameData.GetData(Level)?.Shake ?? 0; } }
+    public float UpgradeCooltime { get { return DataManager.Instance.SwordGrowthGameData.GetData(Level)?.UpgradeCooltime ?? 0; } }
 
-    public bool LevelUp()
+    public bool LevelUp(ref int hp)
     {
         if(DataManager.Instance.SwordGrowthGameData.GetData(Level + 1) == null)
         {
             return false;
         }
+
+        hp -= NextCost;
         _level++;
         return true;
     }

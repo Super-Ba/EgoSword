@@ -28,6 +28,8 @@ public class Player : Actor
 
     private Sword _sword;
 
+    private float _lastSwordUpgradeTime;
+
     private CharacterController _controller;
     private Animator _animator;
     private Transform _cameraTransform;
@@ -46,6 +48,7 @@ public class Player : Actor
     private int _atkPower;
     private float _atkRange;
     private float _atkShake;
+    private float _upgradeCooltime;
 
     void Start()
     {
@@ -59,6 +62,8 @@ public class Player : Actor
         _atkPower = _sword.AtkPower;
         _atkRange = _sword.AtkRange;
         _atkShake = _sword.Shake;
+        
+        _lastSwordUpgradeTime = Time.time;
     }
 
     void Update()
@@ -141,7 +146,13 @@ public class Player : Actor
 
     public override void Damage(Vector3 hitSource, int power)
     {
-        CameraMovement.StartShake(1, 0.1f);
+        if (_isDash)
+        {
+            return;
+        }
+
+        Hp -= power;
+        CameraMovement.StartShake(0.2f, 0.1f);
     }
 
     protected override void Attack()
@@ -196,23 +207,34 @@ public class Player : Actor
         UIManager.Instance.SetDashGuage((Time.time - _lastDashTime) / _dashCooltime);
         UIManager.Instance.SetHpGuage(Hp, MaxHp);
         UIManager.Instance.SetLevelGuage(_sword.Level);
-        UIManager.Instance.SetCostGuage(_sword.NextCost);
+
+        if (_lastSwordUpgradeTime + _upgradeCooltime < Time.time)
+        {
+            UIManager.Instance.SetCostGuage(_sword.NextCost);
+        }
+        else
+        {
+            UIManager.Instance.SetCostGuage(_upgradeCooltime - (Time.time - _lastSwordUpgradeTime));
+        }
 
         _arrowObject.SetActive(!_isDash);
     }
 
     private void UpgradeSword()
     {
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (_lastSwordUpgradeTime + _upgradeCooltime < Time.time && Input.GetKeyDown(KeyCode.Q))
         {
-            if (_sword.LevelUp())
+            if (_sword.LevelUp(ref Hp))
             {
-                Hp -= _sword.NextCost;
+                _lastSwordUpgradeTime = Time.time;
 
                 _atkCoolTime = _sword.AtkCoolTime;
                 _atkPower = _sword.AtkPower;
                 _atkRange = _sword.AtkRange;
                 _atkShake = _sword.Shake;
+                _upgradeCooltime = _sword.UpgradeCooltime;
+                
+                CameraMovement.StartShake(0.5f, 2);
             }
         }
     }

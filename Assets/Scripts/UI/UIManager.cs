@@ -60,4 +60,9 @@ public class UIManager : MonoBehaviour
             _costText.text = $"검이 원하는 피의 양 : {cost}";
         }
     }
+    
+    public void SetCostGuage(float time)
+    {
+        _costText.text = $"다음 흡혈 까지 {(int)time}초 남음.";
+    }
 }
