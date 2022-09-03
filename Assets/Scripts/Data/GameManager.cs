@@ -2,21 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DataManager : MonoBehaviour
+public class GameManager : MonoBehaviour
 {
-    public static DataManager Instance = null;
+    public static GameManager Instance = null;
 
 
     [SerializeField] private SwordGrowthGameData _swordGrowthGameData;
-
     public SwordGrowthGameData SwordGrowthGameData => _swordGrowthGameData;
 
+    [SerializeField] private GameObject _hpItem;
+    public GameObject HpItem => _hpItem;
+    
 
     private void Awake()
     {
-        if(Instance == null)
-        {
-            Instance = this;
-        }
+        Instance = this;
     }
 }

@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
     [SerializeField] private Transform _player;
+
+    [SerializeField] private GameObject _gameoverScreen;
 
     [SerializeField] private RectTransform _playerTargetUI;
 
@@ -21,10 +24,7 @@ public class UIManager : MonoBehaviour
 
     private void Awake()
     {
-        if(!Instance)
-        {
-            Instance = this;
-        }
+        Instance = this;
     }
 
     private void Update()
@@ -60,9 +60,19 @@ public class UIManager : MonoBehaviour
             _costText.text = $"검이 원하는 피의 양 : {cost}";
         }
     }
-    
+
     public void SetCostGuage(float time)
     {
-        _costText.text = $"다음 흡혈 까지 {(int)time}초 남음.";
+        _costText.text = $"다음 흡혈 까지 {(int) time}초 남음.";
+    }
+
+    public void ShowGameOverScreen()
+    {
+        _gameoverScreen.SetActive(true);
+    }
+
+    public void OnClickRestart()
+    {
+        SceneManager.LoadScene(0);
     }
 }

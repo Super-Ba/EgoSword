@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Player : Actor
@@ -153,6 +155,13 @@ public class Player : Actor
 
         Hp -= power;
         CameraMovement.StartShake(0.2f, 0.1f);
+
+        if (Hp <= 0)
+        {
+            Hp = 0;
+            UIManager.Instance.ShowGameOverScreen();
+            gameObject.SetActive(false);
+        }
     }
 
     protected override void Attack()
@@ -235,10 +244,29 @@ public class Player : Actor
                 _upgradeCooltime = _sword.UpgradeCooltime;
                 
                 CameraMovement.StartShake(0.5f, 2);
+                
+                if (Hp <= 0)
+                {
+                    Hp = 0;
+                    UIManager.Instance.ShowGameOverScreen();
+                    gameObject.SetActive(false);
+                }
             }
         }
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("HpItem"))
+        {
+            Destroy(other.gameObject);
+            Hp += 30;
+            if (Hp > MaxHp)
+            {
+                Hp = MaxHp;
+            }
+        }
+    }
 
     private void OnDrawGizmos()
     {

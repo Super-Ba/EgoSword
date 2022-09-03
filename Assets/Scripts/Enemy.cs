@@ -119,6 +119,14 @@ public class Enemy : Actor
 
         if (Hp < 0)
         {
+            if (_hasHpItem)
+            {
+                var item = Instantiate(GameManager.Instance.HpItem);
+                item.transform.position = transform.position;
+                item.GetComponent<Rigidbody>().velocity = _knockBackForce * 0.2f;
+                item.SetActive(true);
+            }
+            
             Destroy(this.gameObject);
         }
     }
