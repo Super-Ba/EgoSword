@@ -48,4 +48,4 @@ MonoBehaviour:
     AtkCoolTime: 0.2
     AtkRange: 3
     Shake: 0.15
-    UpgradeCooltime: 20
+    UpgradeCooltime: 0
