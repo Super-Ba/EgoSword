@@ -18,34 +18,34 @@ MonoBehaviour:
     AtkCoolTime: 1
     AtkRange: 1.5
     Shake: 0.01
-    UpgradeCooltime: 30
+    UpgradeCooltime: 20
   - CostHp: 20
     AtkPower: 40
     AtkCoolTime: 0.8
     AtkRange: 1.7
     Shake: 0.03
-    UpgradeCooltime: 30
+    UpgradeCooltime: 20
   - CostHp: 30
     AtkPower: 45
     AtkCoolTime: 0.6
     AtkRange: 2
     Shake: 0.05
-    UpgradeCooltime: 30
+    UpgradeCooltime: 20
   - CostHp: 50
     AtkPower: 60
     AtkCoolTime: 0.4
     AtkRange: 2.2
     Shake: 0.07
-    UpgradeCooltime: 30
+    UpgradeCooltime: 20
   - CostHp: 70
     AtkPower: 70
     AtkCoolTime: 0.3
     AtkRange: 2.5
     Shake: 0.12
-    UpgradeCooltime: 30
+    UpgradeCooltime: 20
   - CostHp: 90
     AtkPower: 80
     AtkCoolTime: 0.2
     AtkRange: 3
     Shake: 0.15
-    UpgradeCooltime: 30
+    UpgradeCooltime: 20

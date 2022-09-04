@@ -243,7 +243,7 @@ public class Player : Actor
                 _atkShake = _sword.Shake;
                 _upgradeCooltime = _sword.UpgradeCooltime;
                 
-                CameraMovement.StartShake(0.5f, 2);
+                UIManager.Instance.ShowSwordUpgradeEffect();
                 
                 if (Hp <= 0)
                 {

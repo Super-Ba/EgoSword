@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
+    
     [SerializeField] private Transform _player;
 
     [SerializeField] private GameObject _gameoverScreen;
@@ -19,6 +20,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _levelText;
     [SerializeField] private TextMeshProUGUI _costText;
 
+    [SerializeField] private GameObject _upgradeEffect;
 
     public static UIManager Instance = null;
 
@@ -57,13 +59,21 @@ public class UIManager : MonoBehaviour
         }
         else
         {
-            _costText.text = $"검이 원하는 피의 양 : {cost}";
+            _costText.text = $"검이 원하는 피의 양 : {cost} (Q를 눌러 흡혈)";
         }
     }
 
     public void SetCostGuage(float time)
     {
         _costText.text = $"다음 흡혈 까지 {(int) time}초 남음.";
+    }
+
+    public void ShowSwordUpgradeEffect()
+    {
+        CameraMovement.StartShake(0.5f, 2);
+        
+        _upgradeEffect.SetActive(false);
+        _upgradeEffect.SetActive(true);
     }
 
     public void ShowGameOverScreen()
